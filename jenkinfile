@@ -1,0 +1,26 @@
+pipeline
+      {
+        agent
+        {
+          label 'Ansible'
+        }
+        stages
+        {
+          stage ('clone')
+          {
+            steps
+            {
+              git url: "https://github.com/satyamts/Apacheansible.git",
+              branch: "master"
+            }
+          }
+          stage ('execute play book')
+          {
+            steps
+            {
+              sh 'ansible -i hosts -m ping all -k'
+              sh 'ansible-playbook -i hosts apache.yml -k'
+            }
+          }
+        }
+      }
